@@ -17,36 +17,49 @@
     return [NSBundle bundleWithName:bCoreBundleName];
 }
 
-+(NSString *) localizationFileForLang:(NSString *)lang name: (NSString *) name {
++(NSString *) localizationFileForLang:(NSString *)lang name: (NSString *) name bundle: (NSBundle *) bundle {
     NSString * filename = [[name stringByAppendingString:@"."] stringByAppendingString:lang];
-    if ([[self coreBundle] pathForResource:filename ofType:@"strings"]) {
+    if ([bundle pathForResource:filename ofType:@"strings"]) {
         return filename;
     }
     return nil;
 }
 
-+(NSString *) bestLocalizationFileForLang:(NSString *) lang name: (NSString *) name {
-    NSString * exact = [self localizationFileForLang:lang name:name];
++(NSString *) bestLocalizationFileForLang:(NSString *) lang name: (NSString *) name bundle: (NSBundle *) bundle {
+    NSString * exact = [self localizationFileForLang:lang name:name bundle:bundle];
     if (exact) return exact;
     lang = [[lang componentsSeparatedByString:@"-"] firstObject];
-    NSString * general = [self localizationFileForLang:lang name:name];
+    NSString * general = [self localizationFileForLang:lang name:name bundle:bundle];
     if (general) return general;
     return name;
 }
 
-+(NSString *) t:(NSString *) string bundle: (NSBundle *) bundle localizable: (NSString *) localizable {
-    NSString * lang = [[NSLocale preferredLanguages] objectAtIndex:0];
-    NSString * localizableFile = [self bestLocalizationFileForLang:lang name:localizable];
-    if (!localizableFile) return string;
-    
-    NSString * localized = NSLocalizedStringFromTableInBundle(string, localizableFile, bundle, @"");
-    if (![localized isEqualToString:string]) return localized;
++(NSString *) textForKey:(NSString *) key bundle: (NSBundle *) bundle fallbackBundle: (NSBundle *) fallbackBundle localizable: (NSString *) localizable {
+    NSString * localized = [self localizedTextForKey:key bundle:bundle localizable:localizable];
+    if (![localized isEqualToString:key])
+        return localized;
+    localized = [self localizedTextForKey:key bundle:fallbackBundle localizable:localizable];
+    if (![localized isEqualToString:key])
+        return localized;
+    localized = [self defaultTextForKey:key bundle:bundle localizable:localizable];
+    if (![localized isEqualToString:key])
+        return localized;
+    return [self defaultTextForKey:key bundle:fallbackBundle localizable:localizable];
+}
 
-    return NSLocalizedStringFromTableInBundle(string, localizable, bundle, @"");
++(NSString *) localizedTextForKey:(NSString *) key bundle: (NSBundle *) bundle localizable: (NSString *) localizable {
+    NSString * lang = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString * localizableFile = [self bestLocalizationFileForLang:lang name:localizable bundle:bundle];
+    if (!localizableFile) return key;
+    return NSLocalizedStringFromTableInBundle(key, localizableFile, bundle, @"");
+}
+
++(NSString *) defaultTextForKey:(NSString *) key bundle: (NSBundle *) bundle localizable: (NSString *) localizable {
+    return NSLocalizedStringFromTableInBundle(key, localizable, bundle, @"");
 }
 
 +(NSString *) t:(NSString *) string {
-    return [self t:string bundle:[self coreBundle] localizable:bLocalizableFile];
+    return [self textForKey:string bundle:[NSBundle mainBundle] fallbackBundle:[self coreBundle] localizable:bLocalizableFile];
 }
 
 +(NSString *) textForMessage: (id<PMessage>) message {

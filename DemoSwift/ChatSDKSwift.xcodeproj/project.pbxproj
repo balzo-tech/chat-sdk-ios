@@ -17,6 +17,13 @@
 		3BDB8AB725AB716300A7A2DA /* APIExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB625AB716300A7A2DA /* APIExamples.swift */; };
 		3BDB8ABA25AB719400A7A2DA /* ALoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */; };
 		3BDB8ABD25AB75DA00A7A2DA /* APushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */; };
+		892FFFB026F38411000CE278 /* ChatSDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFA926F38411000CE278 /* ChatSDKLocalizable.strings */; };
+		892FFFB126F38411000CE278 /* ChatSDKLocalizable.ar.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFAA26F38411000CE278 /* ChatSDKLocalizable.ar.strings */; };
+		892FFFB226F38411000CE278 /* ChatSDKLocalizable.it.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFAB26F38411000CE278 /* ChatSDKLocalizable.it.strings */; };
+		892FFFB326F38411000CE278 /* ChatSDKLocalizable.zh.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFAC26F38411000CE278 /* ChatSDKLocalizable.zh.strings */; };
+		892FFFB426F38411000CE278 /* ChatSDKLocalizable.nl.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFAD26F38411000CE278 /* ChatSDKLocalizable.nl.strings */; };
+		892FFFB526F38411000CE278 /* ChatSDKLocalizable.pt-BR.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFAE26F38411000CE278 /* ChatSDKLocalizable.pt-BR.strings */; };
+		892FFFB626F38411000CE278 /* ChatSDKLocalizable.es.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892FFFAF26F38411000CE278 /* ChatSDKLocalizable.es.strings */; };
 		AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */; };
 		ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */; };
 		ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */; };
@@ -38,6 +45,13 @@
 		3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APushHandler.swift; sourceTree = "<group>"; };
 		64CE4DD4654F1F8246CF8764 /* Pods_ChatSDKSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69F7DC34CA9874E264117E1E /* Pods-ChatSDKSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		892FFFA926F38411000CE278 /* ChatSDKLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ChatSDKLocalizable.strings; sourceTree = "<group>"; };
+		892FFFAA26F38411000CE278 /* ChatSDKLocalizable.ar.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ChatSDKLocalizable.ar.strings; sourceTree = "<group>"; };
+		892FFFAB26F38411000CE278 /* ChatSDKLocalizable.it.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ChatSDKLocalizable.it.strings; sourceTree = "<group>"; };
+		892FFFAC26F38411000CE278 /* ChatSDKLocalizable.zh.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ChatSDKLocalizable.zh.strings; sourceTree = "<group>"; };
+		892FFFAD26F38411000CE278 /* ChatSDKLocalizable.nl.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ChatSDKLocalizable.nl.strings; sourceTree = "<group>"; };
+		892FFFAE26F38411000CE278 /* ChatSDKLocalizable.pt-BR.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = "ChatSDKLocalizable.pt-BR.strings"; sourceTree = "<group>"; };
+		892FFFAF26F38411000CE278 /* ChatSDKLocalizable.es.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ChatSDKLocalizable.es.strings; sourceTree = "<group>"; };
 		AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACF7BE761C8D8AD7003E8983 /* ChatSDKSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSDKSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +124,20 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		892FFFA826F38411000CE278 /* ChatSDKLocalizables */ = {
+			isa = PBXGroup;
+			children = (
+				892FFFA926F38411000CE278 /* ChatSDKLocalizable.strings */,
+				892FFFAA26F38411000CE278 /* ChatSDKLocalizable.ar.strings */,
+				892FFFAB26F38411000CE278 /* ChatSDKLocalizable.it.strings */,
+				892FFFAC26F38411000CE278 /* ChatSDKLocalizable.zh.strings */,
+				892FFFAD26F38411000CE278 /* ChatSDKLocalizable.nl.strings */,
+				892FFFAE26F38411000CE278 /* ChatSDKLocalizable.pt-BR.strings */,
+				892FFFAF26F38411000CE278 /* ChatSDKLocalizable.es.strings */,
+			);
+			path = ChatSDKLocalizables;
+			sourceTree = "<group>";
+		};
 		ACF7BE6D1C8D8AD7003E8983 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +159,7 @@
 		ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */ = {
 			isa = PBXGroup;
 			children = (
+				892FFFA826F38411000CE278 /* ChatSDKLocalizables */,
 				3BDB8AA925AB712E00A7A2DA /* Docs */,
 				3BDB8AAD25AB712E00A7A2DA /* Examples */,
 				B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */,
@@ -214,9 +243,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B2F5FE925FE6989009F9189 /* BContactsViewController.xib in Resources */,
+				892FFFB326F38411000CE278 /* ChatSDKLocalizable.zh.strings in Resources */,
+				892FFFB426F38411000CE278 /* ChatSDKLocalizable.nl.strings in Resources */,
+				892FFFB626F38411000CE278 /* ChatSDKLocalizable.es.strings in Resources */,
 				ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */,
+				892FFFB526F38411000CE278 /* ChatSDKLocalizable.pt-BR.strings in Resources */,
+				892FFFB126F38411000CE278 /* ChatSDKLocalizable.ar.strings in Resources */,
+				892FFFB026F38411000CE278 /* ChatSDKLocalizable.strings in Resources */,
 				AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */,
 				ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */,
+				892FFFB226F38411000CE278 /* ChatSDKLocalizable.it.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
