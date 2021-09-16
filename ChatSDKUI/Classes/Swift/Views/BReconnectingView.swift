@@ -11,8 +11,8 @@ import KeepLayout
 @objc public class BReconnectingView : UIView {
     
 //    var activityIndicator: UIActivityIndicatorView?
-    var imageView: UIImageView?
-    var label: UILabel?
+    public var imageView: UIImageView?
+    public var label: UILabel?
     var tapGestureRecognizer: UITapGestureRecognizer?
     var status: bConnectionStatus?
    
