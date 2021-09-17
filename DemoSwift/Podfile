@@ -1,6 +1,9 @@
 source 'https://github.com/CocoaPods/Specs.git'
 # plugin 'cocoapods-binary'
 
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
 use_frameworks!
 # enable_bitcode_for_prebuilt_frameworks!
 install! 'cocoapods', :disable_input_output_paths => true

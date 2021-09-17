@@ -48,7 +48,7 @@
 }
 
 +(NSString *) localizedTextForKey:(NSString *) key bundle: (NSBundle *) bundle localizable: (NSString *) localizable {
-    NSString * lang = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString * lang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
     NSString * localizableFile = [self bestLocalizationFileForLang:lang name:localizable bundle:bundle];
     if (!localizableFile) return key;
     return NSLocalizedStringFromTableInBundle(key, localizableFile, bundle, @"");
