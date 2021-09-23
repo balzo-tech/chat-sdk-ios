@@ -64,4 +64,6 @@
 -(void) refreshInterfaceAnimated: (BOOL) animated;
 -(void) startChat;
 
+-(BOOL) isContact;
+
 @end
