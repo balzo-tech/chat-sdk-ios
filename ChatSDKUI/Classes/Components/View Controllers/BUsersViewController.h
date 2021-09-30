@@ -33,4 +33,6 @@
 
 -(instancetype) initWithThread: (id<PThread>) thread;
 
+- (void)reloadData;
+
 @end
