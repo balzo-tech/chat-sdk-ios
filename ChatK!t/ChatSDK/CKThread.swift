@@ -40,7 +40,10 @@ open class CKThread: Conversation {
     }
     
     open func conversationImageUrl() -> URL? {
-        return URL(string: thread.imageURL())
+        guard let imageUrl = thread.imageURL() else {
+            return nil
+        }
+        return URL(string: imageUrl)
     }
     
     open func conversationUsers() -> [User] {
