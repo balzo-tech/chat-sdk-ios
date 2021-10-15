@@ -61,4 +61,8 @@ open class CKThread: Conversation {
     open func conversationType() -> ConversationType {
         return type
     }
+    
+    open func conversationCreator() -> User {
+        return CKUser(user: thread.creator())
+    }
 }

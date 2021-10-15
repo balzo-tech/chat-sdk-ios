@@ -14,6 +14,7 @@ public protocol Conversation {
     func conversationUsers() -> [User]
     func conversationType() -> ConversationType
     func conversationOtherUser() -> User?
+    func conversationCreator() -> User
 }
 
 public extension Conversation {
