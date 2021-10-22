@@ -338,7 +338,11 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     open func addNavigationBarAction() {
         weakVC?.headerView.onTap = { [weak self] in
             if let vc = self?.weakVC, let thread = self?.thread {
-                vc.present(BChatSDK.ui().usersViewNavigationController(with: thread, parentNavigationController: vc.navigationController), animated: true, completion: nil)
+                if let usersViewNavigationController = BChatSDK.ui().usersViewNavigationController(with: thread, parentNavigationController: vc.navigationController) {
+                    // Needed to ensure that viewWillAppear is called on ChatViewController subsclass.
+                    usersViewNavigationController.modalPresentationStyle = .fullScreen
+                    vc.present(usersViewNavigationController, animated: true, completion: nil)
+                }
             }
         }
     }
