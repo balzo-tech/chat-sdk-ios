@@ -99,7 +99,24 @@ open class MessageCell: AbstractMessageCell {
             }
         }
         
-        hideNameLabel()
+        if self.showUserNameLabel(forMessage: message, model: model) {
+            self.nameLabel?.text = message.messageSender().userName()
+            self.showNameLabel()
+        } else {
+            self.hideNameLabel()
+        }
+    }
+    
+    func showUserNameLabel(forMessage message: AbstractMessage, model: MessagesModel) -> Bool {
+        guard false == message.messageSender().userIsMe() else {
+            return false
+        }
+        
+        guard model.conversation.conversationType() != .private1to1 else {
+            return false
+        }
+        
+        return true
     }
 
     open func setAvatarSize(size: CGFloat) {
