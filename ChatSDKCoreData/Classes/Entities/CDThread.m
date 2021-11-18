@@ -470,6 +470,10 @@
     return url;
 }
 
+-(void) setImageURL: (NSString *) url {
+    [self updateMeta:@{bImageURL: url}];
+}
+
 -(void) markDeleted: (BOOL) notify {
     self.deletedDate = [NSDate date];
     [self markRead];

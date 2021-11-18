@@ -76,6 +76,8 @@
 -(BOOL) canLeaveThread: (id<PThread>) thread;
 -(BOOL) canJoinThread: (id<PThread>) thread;
 
+-(RXPromise *) uploadImage: (UIImage *) image forThread: (id<PThread>) thread;
+
 
 /**
  * @brief Send different types of message to a particular thread

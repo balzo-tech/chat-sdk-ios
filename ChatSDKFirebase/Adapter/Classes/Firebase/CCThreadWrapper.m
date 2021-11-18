@@ -430,8 +430,17 @@
     [dict addEntriesFromDictionary:@{bCreationDate: [FIRServerValue timestamp],
                                      bNameKey: [NSString safe:_model.name],
                                      bType: _model.type,
-//                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
+                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
                                      bCreator: [NSString safe: _model.creator.entityID]}];
+    
+    return dict;
+}
+
+-(NSDictionary *) serializeOnlyVariableMeta {
+    NSMutableDictionary * dict = [NSMutableDictionary new];
+    [dict addEntriesFromDictionary:@{bNameKey: [NSString safe:_model.name],
+                                     bType: _model.type,
+                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]]}];
     
     return dict;
 }
@@ -448,11 +457,6 @@
     if(type) {
         _model.type = type;
     }
-    
-//    NSString * imageURL = value[bImageURL];
-//    if (imageURL) {
-//        [_model setMetaValue:imageURL forKey:bImageURL];
-//    }
 
     NSString * creatorEntityID = value[bCreator];
     
@@ -490,9 +494,21 @@
     
     [_model setMeta:meta];
     
+    NSString * imageURL = value[bImageURL];
+    if (imageURL) {
+        [_model setMetaValue:imageURL forKey:bImageURL];
+    }
 }
 
 -(RXPromise *) push {
+    return [self push:NO];
+}
+
+-(RXPromise *) pushOnlyVariableMeta {
+    return [self push:YES];
+}
+
+-(RXPromise *) push: (BOOL) onlyVariableMeta {
     RXPromise * promise = [RXPromise new];
     
     if(!_model.entityID || !_model.entityID.length) {
@@ -503,7 +519,8 @@
 
     // Also update the meta ref - we do this for forwards compatibility
     // in the future we will move everything to the meta area
-    [metaRef updateChildValues:self.serialize withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    NSDictionary * dictionary = (onlyVariableMeta) ? self.serializeOnlyVariableMeta : self.serialize;
+    [metaRef updateChildValues:dictionary withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
            if (!error) {
                [promise resolveWithResult:self.model];
            }

@@ -62,6 +62,11 @@
 -(RXPromise *) push;
 
 /**
+ * @brief Update/create the thread entity on the server only with the thread's current variable meta data
+ */
+-(RXPromise *) pushOnlyVariableMeta;
+
+/**
  * @brief Add a new user to this thread - if there's an error adding the user to the thread or the thread to the user, the whole data change is rolled back
  */
 -(RXPromise *) addUser: (CCUserWrapper *) user;

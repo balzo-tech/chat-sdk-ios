@@ -205,4 +205,22 @@
     return message.senderIsMe;
 }
 
+-(RXPromise *) uploadImage: (UIImage *) image forThread: (id<PThread>) thread {
+    RXPromise * promise = [RXPromise resolveWithResult:nil];
+    if (BChatSDK.upload) {
+        promise = [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
+            NSString * url = urls[bImagePath];
+            if (url) {
+                [thread setImageURL:url];
+                [BChatSDK.core save];
+            }
+            return urls;
+        }, Nil);
+    }
+    
+    return promise.then(^id(id result) {
+        return [[CCThreadWrapper threadWithModel:thread] pushOnlyVariableMeta];
+    }, nil);
+}
+
 @end
