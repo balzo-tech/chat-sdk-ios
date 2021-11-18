@@ -24,6 +24,7 @@
 
 @synthesize tableView;
 @synthesize threads = _threads;
+@synthesize searchController;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +42,17 @@
     [super viewDidAppear:YES];
     
     [self updateButtonStatusForInternetConnection];
+    // We need to call this to ensure the search controller is correctly formatted when the view is shown
+    [self viewDidLayoutSubviews];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    if (searchController != nil) {
+        // This removes the active search once a user goes back to this page
+        searchController.active = NO;
+    }
 }
 
 - (void)viewDidLoad {
@@ -67,6 +79,20 @@
         [weakSelf updateBadge];
     }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted, bHookAllMessagesDeleted, bHookThreadRemoved]]];
 
+    if (!searchController && BChatSDK.config.enableThreadSearch) {
+        
+        searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+        searchController.searchResultsUpdater = self;
+        searchController.dimsBackgroundDuringPresentation = NO;
+        searchController.searchBar.scopeButtonTitles = @[];
+        searchController.searchBar.delegate = self;
+        
+        if (@available(iOS 11.0, *)) {
+            self.navigationItem.searchController = searchController;
+        }
+        
+        self.definesPresentationContext = YES;
+    }
 }
 
 -(void) addObservers {
@@ -155,6 +181,9 @@
     // Update the badge
     [self updateBadge];
     
+    if (searchController != nil) {
+        [searchController.searchBar sizeToFit];
+    }
 }
 
 -(void) updateLocalNotificationHandler {
@@ -323,6 +352,29 @@
 
 -(void) updateBadge {
     
+}
+
+#pragma mark - UISearchResultsUpdating
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController_ {
+    
+    NSString * searchString = searchController_.searchBar.text.lowercaseString;
+    
+    [self loadThreads];
+    
+    NSArray * threads = [_threads mutableCopy];
+    NSMutableArray * filteredThreads = [NSMutableArray new];
+    
+    for (id<PThread> thread in threads) {
+        // If the search string is blank then we add all the on and offline users like normal
+        if (!searchString.length || (thread.displayName != nil && [thread.displayName.lowercaseString rangeOfString:searchString].location != NSNotFound)) {
+            [filteredThreads addObject:thread];
+        }
+    }
+    
+    _threads = filteredThreads;
+    
+    [self reloadData];
 }
 
 @end

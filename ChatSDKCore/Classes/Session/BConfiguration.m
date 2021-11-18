@@ -110,6 +110,8 @@
 @synthesize xmppOutgoingMessageQueueRetryTime;
 @synthesize xmppOutgoingMessageAlwaysAdd;
 
+@synthesize enableThreadSearch;
+
 -(instancetype) init {
     if((self = [super init])) {
         
@@ -240,6 +242,8 @@
         xmppOutgoingMessageAlwaysAdd = true;
         
         replyThumbnailSize = 60 * 3;
+        
+        enableThreadSearch = NO;
     }
     return self;
 }

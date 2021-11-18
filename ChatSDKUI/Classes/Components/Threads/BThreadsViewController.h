@@ -12,7 +12,7 @@
 @class BNotificationObserverList;
 @class BHook;
 
-@interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate> {
+@interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UISearchBarDelegate, UISearchResultsUpdating> {
     UIBarButtonItem * _editButton;
     
     NSMutableArray * _threads;
@@ -26,6 +26,8 @@
 
 @property (nonatomic, readwrite) UITableView *tableView;
 @property (nonatomic, readwrite) NSMutableArray * threads;
+
+@property (strong, nonatomic) UISearchController * searchController;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 
