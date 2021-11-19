@@ -35,4 +35,6 @@
 
 - (void)reloadData;
 
+- (void)leaveThread;
+
 @end

@@ -152,20 +152,7 @@ typedef void(^Action)();
     // Sections
     if ([BChatSDK.thread canLeaveThread:_thread]) {
         [_sections addObject:[[BSection alloc] init:bLeaveConversation action:^{
-            [BChatSDK.thread leaveThread:_thread].thenOnMain(^id(id success) {
-                if (BChatSDK.config.deleteThreadOnLeaving) {
-                    [BChatSDK.thread deleteThread:_thread];
-                    
-                    [weakSelf.navigationController dismissViewControllerAnimated:NO completion:^{
-                        if (weakSelf.parentNavigationController) {
-                            [weakSelf.parentNavigationController popViewControllerAnimated:YES];
-                        }
-                    }];
-                } else {
-                    [weakSelf reloadOptions];
-                }
-                return success;
-            }, nil);
+            [weakSelf leaveThread];
         } color:UIColor.systemRedColor legacyColor:UIColor.redColor]];
     }
 
@@ -468,5 +455,23 @@ typedef void(^Action)();
     }
 }
 
+- (void)leaveThread {
+    __weak __typeof(self) weakSelf = self;
+    
+    [BChatSDK.thread leaveThread:_thread].thenOnMain(^id(id success) {
+        if (BChatSDK.config.deleteThreadOnLeaving) {
+            [BChatSDK.thread deleteThread:_thread];
+            
+            [weakSelf.navigationController dismissViewControllerAnimated:NO completion:^{
+                if (weakSelf.parentNavigationController) {
+                    [weakSelf.parentNavigationController popViewControllerAnimated:YES];
+                }
+            }];
+        } else {
+            [weakSelf reloadOptions];
+        }
+        return success;
+    }, nil);
+}
 
 @end
