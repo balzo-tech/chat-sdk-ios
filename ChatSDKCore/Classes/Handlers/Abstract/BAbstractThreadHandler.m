@@ -198,7 +198,7 @@
 
 -(RXPromise *) leaveThread: (id<PThread>) thread {
     id<PUser> user = BChatSDK.currentUser;
-    return [self removeUsers:@[user] fromThread:[thread entityID]];
+    return [self removeUsers:@[[user entityID]] fromThread:[thread entityID]];
 }
 
 -(RXPromise *) joinThread: (id<PThread>) thread {
