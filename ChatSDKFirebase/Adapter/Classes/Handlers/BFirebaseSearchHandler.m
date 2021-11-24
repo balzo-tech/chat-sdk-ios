@@ -22,6 +22,14 @@
     if ([index isEqual:bUserNameLowercase]) {
         value = [value lowercaseString];
     }
+    
+    if ([index isEqual:bUserPhoneKey]) {
+        // Removing non numerical characters to increase matching chance.
+        value = [value stringByReplacingOccurrencesOfString:@"[ \\-().]"
+                                                 withString:@""
+                                                    options:NSRegularExpressionSearch
+                                                      range:NSMakeRange(0, value.length)];
+    }
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         if(!index || !index.length || !value || !value.length) {
