@@ -76,6 +76,7 @@
         }
         
         [BChatSDK.db deleteEntities:connections];
+        [BChatSDK.db save];
         [BHookNotification notificationContactWasDeleted:user];
         [promise resolveWithResult:nil];
     }];
