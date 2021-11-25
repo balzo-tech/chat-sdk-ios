@@ -31,6 +31,7 @@ open class MessagesView: UIView {
     open var loadedMessages: [AbstractMessage]?
     
     open var hideKeyboardListener: (() -> Void)?
+    open var messagesReloadedListener: (() -> Void)?
     
     // This is used to preseve the Y position when we change the table insets
     open var bottomYClearance: CGFloat = 0
@@ -297,6 +298,7 @@ extension MessagesView: PMessagesView {
         return Completable.create { [weak self] completable in
             self?.datasource?.apply(snapshot, animatingDifferences: animated, completion: {
                 completable(.completed)
+                self?.messagesReloadedListener?()
             })
             return Disposables.create {}
         }
@@ -309,6 +311,7 @@ extension MessagesView: PMessagesView {
                 self?.datasource?.apply(snapshot, animatingDifferences: animated, completion: {
 //                    self?.layout()
                     completable(.completed)
+                    self?.messagesReloadedListener?()
                 })
             }
             return Disposables.create {}
