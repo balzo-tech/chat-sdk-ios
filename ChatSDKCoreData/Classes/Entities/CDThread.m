@@ -281,6 +281,7 @@
             if (didMarkRead) {
                 [BHookNotification notificationThreadMarkedRead:self];
             }
+            [BChatSDK.db save];
         }
     }];
 
