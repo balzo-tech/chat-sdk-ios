@@ -575,22 +575,34 @@ static void * kMainQueueKey = (void *) "Key1";
 -(RXPromise *) privateThreadUnreadMessageCount {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
     PUser * currentUser = BChatSDK.currentUser;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"(thread.type = %@ OR thread.type = %@) AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadType1to1), @(bThreadTypePrivateGroup), currentUser, currentUserEntityID];
-    return [self unreadMessagesCountWithPredicate:predicate];
+    if (currentUser != nil) {
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"(thread.type = %@ OR thread.type = %@) AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadType1to1), @(bThreadTypePrivateGroup), currentUser, currentUserEntityID];
+        return [self unreadMessagesCountWithPredicate:predicate];
+    } else {
+        return [RXPromise resolveWithResult:0];
+    }
 }
 
 -(RXPromise *) publicThreadUnreadMessageCount {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
     PUser * currentUser = BChatSDK.currentUser;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.type = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadTypePublicGroup), currentUser, currentUserEntityID];
-    return [self unreadMessagesCountWithPredicate:predicate];
+    if (currentUser != nil) {
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.type = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadTypePublicGroup), currentUser, currentUserEntityID];
+        return [self unreadMessagesCountWithPredicate:predicate];
+    } else {
+        return [RXPromise resolveWithResult:0];
+    }
 }
 
 -(RXPromise *) unreadMessagesCount: (NSString *) threadEntityID {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
     PUser * currentUser = BChatSDK.currentUser;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
-    return [self unreadMessagesCountWithPredicate:predicate];
+    if (currentUser != nil) {
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
+        return [self unreadMessagesCountWithPredicate:predicate];
+    } else {
+        return [RXPromise resolveWithResult:0];
+    }
 }
 
 -(int) unreadMessagesCountNow {
@@ -599,11 +611,12 @@ static void * kMainQueueKey = (void *) "Key1";
         NSString * currentUserEntityID = BChatSDK.currentUserID;
         PUser * currentUser = BChatSDK.currentUser;
 
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", currentUser, currentUserEntityID];
-        
-        NSArray * messagesUnread = [self unreadMessagesNowWithPredicate:predicate context:_mainMoc];
-        count = messagesUnread.count;
-
+        if (currentUser != nil) {
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", currentUser, currentUserEntityID];
+            
+            NSArray * messagesUnread = [self unreadMessagesNowWithPredicate:predicate context:_mainMoc];
+            count = messagesUnread.count;
+        }
     }];
     return count;
 }
@@ -614,11 +627,12 @@ static void * kMainQueueKey = (void *) "Key1";
         NSString * currentUserEntityID = BChatSDK.currentUserID;
         PUser * currentUser = BChatSDK.currentUser;
 
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
-        
-        NSArray * messagesUnread = [self unreadMessagesNowWithPredicate:predicate context:_mainMoc];
-        count = messagesUnread.count;
-
+        if (currentUser != nil) {
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
+            
+            NSArray * messagesUnread = [self unreadMessagesNowWithPredicate:predicate context:_mainMoc];
+            count = messagesUnread.count;
+        }
     }];
     return count;
 }
@@ -626,8 +640,14 @@ static void * kMainQueueKey = (void *) "Key1";
 -(void) unreadMessages: (NSString *) threadEntityID then: (CompletionArray) completion {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
     PUser * currentUser = BChatSDK.currentUser;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
-    return [self unreadMessagesWithPredicate:predicate context:_mainMoc then: completion];
+    
+    if (currentUser != nil) {
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
+        return [self unreadMessagesWithPredicate:predicate context:_mainMoc then: completion];
+    } else {
+        NSArray * messages = [NSArray new];
+        completion(messages);
+    }
 }
 
 -(void) unreadMessagesCountWithPredicate: (NSPredicate *) predicate then: (CompletionInt) completion {
