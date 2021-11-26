@@ -574,28 +574,47 @@ static void * kMainQueueKey = (void *) "Key1";
 
 -(RXPromise *) privateThreadUnreadMessageCount {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"(thread.type = %@ OR thread.type = %@) AND thread.userAccountID = %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadType1to1), @(bThreadTypePrivateGroup), currentUserEntityID, currentUserEntityID];
+    PUser * currentUser = BChatSDK.currentUser;
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"(thread.type = %@ OR thread.type = %@) AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadType1to1), @(bThreadTypePrivateGroup), currentUser, currentUserEntityID];
     return [self unreadMessagesCountWithPredicate:predicate];
 }
 
 -(RXPromise *) publicThreadUnreadMessageCount {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.type = %@ AND thread.userAccountID = %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadTypePublicGroup), currentUserEntityID, currentUserEntityID];
+    PUser * currentUser = BChatSDK.currentUser;
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.type = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", @(bThreadTypePublicGroup), currentUser, currentUserEntityID];
     return [self unreadMessagesCountWithPredicate:predicate];
 }
 
 -(RXPromise *) unreadMessagesCount: (NSString *) threadEntityID {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.userAccountID = %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUserEntityID, currentUserEntityID];
+    PUser * currentUser = BChatSDK.currentUser;
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
     return [self unreadMessagesCountWithPredicate:predicate];
+}
+
+-(int) unreadMessagesCountNow {
+    __block int count = 0;
+    [_mainMoc performBlockAndWait:^{
+        NSString * currentUserEntityID = BChatSDK.currentUserID;
+        PUser * currentUser = BChatSDK.currentUser;
+
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", currentUser, currentUserEntityID];
+        
+        NSArray * messagesUnread = [self unreadMessagesNowWithPredicate:predicate context:_mainMoc];
+        count = messagesUnread.count;
+
+    }];
+    return count;
 }
 
 -(int) unreadMessagesCountNow: (NSString *) threadEntityID {
     __block int count = 0;
     [_mainMoc performBlockAndWait:^{
         NSString * currentUserEntityID = BChatSDK.currentUserID;
+        PUser * currentUser = BChatSDK.currentUser;
 
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.userAccountID = %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUserEntityID, currentUserEntityID];
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
         
         NSArray * messagesUnread = [self unreadMessagesNowWithPredicate:predicate context:_mainMoc];
         count = messagesUnread.count;
@@ -606,7 +625,8 @@ static void * kMainQueueKey = (void *) "Key1";
 
 -(void) unreadMessages: (NSString *) threadEntityID then: (CompletionArray) completion {
     NSString * currentUserEntityID = BChatSDK.currentUserID;
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.userAccountID = %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUserEntityID, currentUserEntityID];
+    PUser * currentUser = BChatSDK.currentUser;
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.users CONTAINS %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUser, currentUserEntityID];
     return [self unreadMessagesWithPredicate:predicate context:_mainMoc then: completion];
 }
 

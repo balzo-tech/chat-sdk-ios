@@ -40,6 +40,7 @@ typedef void(^CompletionInt)(int);
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users;
 -(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate;
 
+-(int) unreadMessagesCountNow;
 -(int) unreadMessagesCountNow: (NSString *) threadEntityID;
 
 -(RXPromise *) privateThreadUnreadMessageCount;
