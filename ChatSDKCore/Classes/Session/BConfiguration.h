@@ -308,6 +308,7 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL xmppOutgoingMessageAlwaysAdd;
 
 @property(nonatomic, readwrite) BOOL enableThreadSearch;
+@property (nonatomic, readwrite) BOOL phoneNumberAsDefaultUsername;
 
 
 

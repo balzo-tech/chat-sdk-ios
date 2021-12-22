@@ -111,6 +111,7 @@
 @synthesize xmppOutgoingMessageAlwaysAdd;
 
 @synthesize enableThreadSearch;
+@synthesize phoneNumberAsDefaultUsername;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -244,6 +245,8 @@
         replyThumbnailSize = 60 * 3;
         
         enableThreadSearch = NO;
+        
+        phoneNumberAsDefaultUsername = NO;
     }
     return self;
 }
