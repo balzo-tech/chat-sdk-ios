@@ -48,5 +48,6 @@
 
 - (IBAction)profilePictureButtonPressed:(UIButton *)sender;
 -(void) setProfileImage: (UIImage *) image;
+-(void) save;
 
 @end
